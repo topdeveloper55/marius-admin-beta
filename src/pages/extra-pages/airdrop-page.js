@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import { TextField } from '@mui/material';
 import 'react-toastify/dist/ReactToastify.css';
+import { CSVLink } from 'react-csv';
 // ==============================|| WalletList PAGE ||============================== //
 const AirdopPage = () => {
   const [randomCode, setRandomCode] = useState('');
@@ -161,35 +162,40 @@ const AirdopPage = () => {
           ))}
         </div>
       </div>
-      <div className="text-[23px] mb-3 mt-8">Transaction List</div>
+      <div className="inline-flex mt-8 mb-3 items-center">
+        <div className="text-[23px] mr-[500px]">Transaction List</div>
+        <CSVLink data={transactionData} filename={'my-file.csv'} target="_blank">
+          <div className="text-[15px] bg-gray-300 hover:bg-gray-500 w-[150px] text-center rounded-full py-[10px]">Export to CSV</div>
+        </CSVLink>
+      </div>
       <div className="table text-[15px]">
         {transactionData.length != 0 && (
           <div className="table-header-group ">
-            <div className="table-row text-center border-solid border-black">
-              <div className="table-cell text-left border-solid border-black">No</div>
-              <div className="table-cell text-left border-solid border-black">Wallet</div>
-              <div className="table-cell text-left border-solid border-black">Transaction</div>
-              <div className="table-cell text-left border-solid border-black">Code</div>
-              <div className="table-cell text-left border-solid border-black">NFTNum</div>
-              <div className="table-cell text-left border-solid border-black">Chain</div>
-              <div className="table-cell text-left border-solid border-black">Value(sol)</div>
-              <div className="table-cell text-left border-solid border-black">Tokens</div>
-              <div className="table-cell text-left border-solid border-black">Transaction date</div>
+            <div className="inline-flex">
+              <div className="w-[30px] border border-black inline-flex items-center justify-center">No</div>
+              <div className="w-[200px] overflow-y-auto border border-black inline-flex items-center justify-center">Wallet</div>
+              <div className="w-[200px] overflow-y-auto border border-black inline-flex items-center justify-center">Transaction</div>
+              <div className="w-[200px] overflow-y-auto border border-black inline-flex items-center justify-center">Code</div>
+              <div className="w-[200px] overflow-y-auto border border-black inline-flex items-center justify-center">NFTNum</div>
+              <div className="w-[200px] overflow-y-auto border border-black inline-flex items-center justify-center">Chain</div>
+              <div className="w-[200px] overflow-y-auto border border-black inline-flex items-center justify-center">Value(sol)</div>
+              <div className="w-[200px] overflow-y-auto border border-black inline-flex items-center justify-center">Tokens</div>
+              <div className="w-[200px] overflow-y-auto border border-black inline-flex items-center justify-center">Transaction date</div>
             </div>
           </div>
         )}
         <div className="table-row-group">
           {transactionData.map((item, index) => (
-            <div className="table-row border-solid border-black" key={index}>
-              <div className="table-cell border-solid border-black">{index + 1}</div>
-              <div className="table-cell border-solid border-black">{item.publicKey}</div>
-              <div className="table-cell border-solid border-black">{item.transaction}</div>
-              <div className="table-cell border-solid border-black">{item.code}</div>
-              <div className="table-cell border-solid border-black">{item.nftNum}</div>
-              <div className="table-cell border-solid border-black">{item.unit}</div>
-              <div className="table-cell border-solid border-black">{item.value}</div>
-              <div className="table-cell border-solid border-black">{item.tokens}</div>
-              <div className="table-cell border-solid border-black">{item.createdAt}</div>
+            <div className="inline-flex" key={index}>
+              <div className="w-[30px] border border-black">{index + 1}</div>
+              <div className="w-[200px] overflow-y-auto border border-black">{item.publicKey}</div>
+              <div className="w-[200px] overflow-y-auto border border-black">{item.transaction}</div>
+              <div className="w-[200px] overflow-y-auto border border-black inline-flex items-center justify-center">{item.code}</div>
+              <div className="w-[200px] overflow-y-auto border border-black inline-flex items-center justify-center">{item.nftNum}</div>
+              <div className="w-[200px] overflow-y-auto border border-black inline-flex items-center justify-center">{item.unit}</div>
+              <div className="w-[200px] overflow-y-auto border border-black inline-flex items-center justify-center">{item.value}</div>
+              <div className="w-[200px] overflow-y-auto border border-black inline-flex items-center justify-center">{item.tokens}</div>
+              <div className="w-[200px] overflow-y-auto border border-black inline-flex items-center justify-center">{item.createdAt}</div>
             </div>
           ))}
         </div>
