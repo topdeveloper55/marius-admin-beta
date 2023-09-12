@@ -25,10 +25,8 @@ const AirdopPage = () => {
   const [deadline, setDeadLine] = useState('');
   const handleDeadLine = async (newValue) => {
     setDeadLine(newValue.target.value);
-    console.log(deadline);
   };
   const createCode = async () => {
-    console.log(tokenNum, userNum, comunity, randomCode, deadline);
     const response = await axios.post('https://marius-server-wjua.onrender.com/api/airdrop/create', {
       tokenNum: tokenNum,
       userNum: userNum,
@@ -36,9 +34,7 @@ const AirdopPage = () => {
       randomCode: randomCode,
       deadline: deadline
     });
-    console.log('response------>', response);
     if (response.data === 'success') {
-      console.log('----------->');
       toast('success', { hideProgressBar: false, autoClose: 2000, type: 'success' });
     }
   };
@@ -62,11 +58,18 @@ const AirdopPage = () => {
         console.log(error);
       });
   };
+  const handleCloseCode = async (id) => {
+    const response = await axios.post('https://marius-server-wjua.onrender.com/api/airdrop/closeCode', {
+      id: id
+    });
+    if (response.data === 'success') {
+      toast('success', { hideProgressBar: false, autoClose: 2000, type: 'success' });
+    }
+  };
   useEffect(() => {
     getAirdrop();
     getTransaction();
   }, []);
-  console.log(data);
 
   return (
     <div className="w-screen">
@@ -144,7 +147,8 @@ const AirdopPage = () => {
               <div className="table-cell text-left">Tokens</div>
               <div className="table-cell text-left">Users</div>
               <div className="table-cell text-left">RandomCode</div>
-              <div className="table-cell text-left">CreatedDate</div>
+              <div className="table-cell text-left">Code Status</div>
+              <div className="table-cell text-left">Close Code</div>
             </div>
           </div>
         )}
@@ -157,7 +161,17 @@ const AirdopPage = () => {
               <div className="table-cell">{item.tokenNum}</div>
               <div className="table-cell">{item.userNum}</div>
               <div className="table-cell">{item.randomCode}</div>
-              <div className="table-cell">{item.createAt}</div>
+              <div className="table-cell">{item.closeStatus === false ? <>false</> : <>true</>}</div>
+              <div className="table-cell p-2 mb-1">
+                <button
+                  className="rounded-lg bg-gray-500 p-1"
+                  onClick={() => {
+                    handleCloseCode(item.id);
+                  }}
+                >
+                  Close
+                </button>
+              </div>
             </div>
           ))}
         </div>
