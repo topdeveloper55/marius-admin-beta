@@ -29,7 +29,7 @@ const AirdopPage = () => {
   };
   const createCode = async () => {
     console.log(tokenNum, userNum, comunity, randomCode, deadline);
-    const response = await axios.post('https://marius-server.onrender.com/api/airdrop/create', {
+    const response = await axios.post('https://marius-server-wjua.onrender.com/api/airdrop/create', {
       tokenNum: tokenNum,
       userNum: userNum,
       comunity: comunity,
@@ -44,7 +44,7 @@ const AirdopPage = () => {
   };
   const getAirdrop = async () => {
     axios
-      .get('https://marius-server.onrender.com/api/airdrop')
+      .get('https://marius-server-wjua.onrender.com/api/airdrop')
       .then((response) => {
         setData(response.data);
       })
@@ -54,7 +54,7 @@ const AirdopPage = () => {
   };
   const getTransaction = async () => {
     axios
-      .get('https://marius-server.onrender.com/api/airdrop/transaction')
+      .get('https://marius-server-wjua.onrender.com/api/airdrop/transaction')
       .then((response) => {
         setTransactionData(response.data);
       })
