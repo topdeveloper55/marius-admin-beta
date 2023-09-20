@@ -13,6 +13,8 @@ const AirdopPage = () => {
   const [comunity, setComunityName] = useState('');
   const [data, setData] = useState([]);
   const [transactionData, setTransactionData] = useState([]);
+  const [maximumNum, setMaximumNum] = useState(0);
+  const [deadline, setDeadLine] = useState('');
   const generateCode = () => {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -22,20 +24,34 @@ const AirdopPage = () => {
     }
     setRandomCode(result);
   };
-  const [deadline, setDeadLine] = useState('');
+
   const handleDeadLine = async (newValue) => {
     setDeadLine(newValue.target.value);
   };
   const createCode = async () => {
-    const response = await axios.post('https://marius-server-wjua.onrender.com/api/airdrop/create', {
-      tokenNum: tokenNum,
-      userNum: userNum,
-      comunity: comunity,
-      randomCode: randomCode,
-      deadline: deadline
-    });
-    if (response.data === 'success') {
-      toast('success', { hideProgressBar: false, autoClose: 2000, type: 'success' });
+    if (tokenNum === 0 || userNum === 0 || comunity === '' || randomCode === '' || deadline === '' || maximumNum === 0) {
+      toast('Please input all data', { hideProgressBar: false, autoClose: 2000, type: 'error' });
+    } else {
+      const response = await axios.post('https://marius-server-wjua.onrender.com/api/airdrop/create', {
+        tokenNum: tokenNum,
+        userNum: userNum,
+        comunity: comunity,
+        randomCode: randomCode,
+        deadline: deadline,
+        maximumNum: maximumNum
+      });
+      // const response = await axios.post('https://marius-server-wjua.onrender.com/api/airdrop/create', {
+      //   tokenNum: tokenNum,
+      //   userNum: userNum,
+      //   comunity: comunity,
+      //   randomCode: randomCode,
+      //   deadline: deadline,
+      //   maximumNum: maximumNum
+      // });
+      if (response.data.status === 'success') {
+        toast('success', { hideProgressBar: false, autoClose: 2000, type: 'success' });
+        setData(response.data.data);
+      }
     }
   };
   const getAirdrop = async () => {
@@ -107,6 +123,17 @@ const AirdopPage = () => {
           }}
         ></input>
       </div>
+      <div className="inline-flex w-full mb-3">
+        <div className="flex items-center mr-[160px]">
+          <div className="text-[20px]">Maximun buy number</div>
+        </div>
+        <input
+          className="items-center text-sm leading-6 text-black rounded-md ring-1 shadow-sm py-1.5 pl-2 pr-3 hover:ring-white bg-gray-300 dark:highlight-white/5 dark:hover:bg-gray-100"
+          onChange={(event) => {
+            setMaximumNum(event.target.value);
+          }}
+        ></input>
+      </div>
       <div className="inline-flex w-full mb-[30px]">
         <input
           disabled={true}
@@ -147,6 +174,7 @@ const AirdopPage = () => {
               <div className="table-cell text-left">Tokens</div>
               <div className="table-cell text-left">Users</div>
               <div className="table-cell text-left">RandomCode</div>
+              <div className="table-cell text-left">Maximun Num</div>
               <div className="table-cell text-left">Code Status</div>
               <div className="table-cell text-left">Close Code</div>
             </div>
@@ -161,6 +189,7 @@ const AirdopPage = () => {
               <div className="table-cell">{item.tokenNum}</div>
               <div className="table-cell">{item.userNum}</div>
               <div className="table-cell">{item.randomCode}</div>
+              <div className="table-cell">{item.maximumNum}</div>
               <div className="table-cell">{item.closeStatus === false ? <>false</> : <>true</>}</div>
               <div className="table-cell p-2 mb-1">
                 <button
